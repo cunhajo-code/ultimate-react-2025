@@ -1,0 +1,30 @@
+.App {
+  font-family: sans-serif;
+  text-align: center;
+}
+
+.counter-label {
+  font-family: "Segoe UI", sans-serif;
+  min-width: 120px;
+}
+
+.counter-unit {
+  font-family: "Segoe UI", sans-serif;
+  font-size: 24px;
+  min-width: 120px;
+}
+
+.ctrButton {
+  font-family: "Times New Roman", Times, sans-serif;
+  font-size: 32px;
+  min-width: 50px;
+}
+
+.controlSetRow {
+  margin-top: 10px;
+}
+
+.counterText {
+  min-width: 200px; /* Room for ~12 char label + 3-digit number */
+  text-align: center;
+}
