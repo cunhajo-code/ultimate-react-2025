@@ -8,11 +8,33 @@ const initialItems = [
 ];
 
 function App() {
+  const [items, setItems] = useState(initialItems);
+
+  function handleAddItem(item) {
+    setItems((items) => [...items, item]);
+  }
+
+  function handleDeleteItem(id) {
+    setItems((items) => items.filter((item) => item.id !== id));
+  }
+
+  function handleTogglePacked(id) {
+    setItems((items) =>
+      items.map((item) =>
+        item.id === id ? { ...item, packed: !item.packed } : item
+      )
+    );
+  }
+
   return (
     <div className="app">
       <Logo />
-      <Form />
-      <PackingList />
+      <Form onAddItems={handleAddItem} />
+      <PackingList
+        items={items}
+        onDeleteItem={handleDeleteItem}
+        onTooglePacked={handleTogglePacked}
+      />
       <Stats />
     </div>
   );
@@ -22,13 +44,22 @@ function Logo() {
   return <h1>🌴 Far Away 💼</h1>;
 }
 
-function Form() {
+function Form({ onAddItems }) {
   const [description, setDescription] = useState("");
-  const [quantity, setQuantity] = useState(5);
+  const [quantity, setQuantity] = useState(1);
 
   function handleSubmit(e) {
     e.preventDefault();
-    console.log(e);
+
+    if (!description) return;
+
+    const newItem = { description, quantity, pakced: false, id: Date.now() };
+    console.log(newItem);
+
+    onAddItems(newItem);
+
+    setDescription("");
+    setQuantity(1);
   }
 
   return (
@@ -55,12 +86,33 @@ function Form() {
   );
 }
 
-function PackingList() {
+function PackingList({ items, onDeleteItem, onTooglePacked }) {
+  function Item({ item, onDeleteItem, onTooglePacked }) {
+    return (
+      <li>
+        <input
+          type="checkbox"
+          checked={item.packed}
+          onChange={() => onTooglePacked(item.id)}
+        />
+        <span style={item.packed ? { textDecoration: "Line-through" } : {}}>
+          {item.quantity} {item.description}
+        </span>
+        <button onClick={() => onDeleteItem(item.id)}>❌</button>
+      </li>
+    );
+  }
+
   return (
     <div className="list">
       <ul>
-        {initialItems.map((item) => (
-          <Item item={item} key={item.id} />
+        {items.map((item) => (
+          <Item
+            item={item}
+            key={item.id}
+            onDeleteItem={onDeleteItem}
+            onTooglePacked={onTooglePacked}
+          />
         ))}
       </ul>
     </div>
@@ -75,14 +127,4 @@ function Stats() {
   );
 }
 
-function Item({ item }) {
-  return (
-    <li>
-      <span style={item.packed ? { textDecoration: "Line-through" } : {}}>
-        {item.quantity} {item.description}
-      </span>
-      <button>❌</button>
-    </li>
-  );
-}
 export default App;
