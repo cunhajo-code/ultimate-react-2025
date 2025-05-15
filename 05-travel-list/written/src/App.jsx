@@ -1,5 +1,9 @@
 import { useState } from "react";
 import "./index.css";
+import Logo from "./Logo";
+import Form from "./Form";
+import PackingList from "./PackingList";
+import Stats from "./Stats";
 
 const initialItems = [
   { id: 1, description: "Passports", quantity: 2, packed: false },
@@ -26,6 +30,14 @@ function App() {
     );
   }
 
+  function handleClearItems() {
+    const confirmed = window.confirm(
+      "Are you sure you want to clear the items List?"
+    );
+
+    if (confirmed) setItems([]);
+  }
+
   return (
     <div className="app">
       <Logo />
@@ -34,104 +46,10 @@ function App() {
         items={items}
         onDeleteItem={handleDeleteItem}
         onTooglePacked={handleTogglePacked}
+        onClearItems={handleClearItems}
       />
       <Stats items={items} />
     </div>
-  );
-}
-
-function Logo() {
-  return <h1>🌴 Far Away 💼</h1>;
-}
-
-function Form({ onAddItems }) {
-  const [description, setDescription] = useState("");
-  const [quantity, setQuantity] = useState(1);
-
-  function handleSubmit(e) {
-    e.preventDefault();
-
-    if (!description) return;
-
-    const newItem = { description, quantity, pakced: false, id: Date.now() };
-    // console.log(newItem);
-
-    onAddItems(newItem);
-
-    setDescription("");
-    setQuantity(1);
-  }
-
-  return (
-    <form className="add-form" onSubmit={handleSubmit}>
-      <h3>What do you need for your trip ❓</h3>
-      <select
-        value={quantity}
-        onChange={(e) => setQuantity(Number(e.target.value))}
-      >
-        {Array.from({ length: 20 }, (_, i) => i + 1).map((num) => (
-          <option value={num} key={num}>
-            {num}
-          </option>
-        ))}
-      </select>
-      <input
-        type="text"
-        placeholder="Item..."
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-      />
-      <button>Add</button>
-    </form>
-  );
-}
-
-function PackingList({ items, onDeleteItem, onTooglePacked }) {
-  function Item({ item, onDeleteItem, onTooglePacked }) {
-    return (
-      <li>
-        <input
-          type="checkbox"
-          checked={item.packed}
-          onChange={() => onTooglePacked(item.id)}
-        />
-        <span style={item.packed ? { textDecoration: "Line-through" } : {}}>
-          {item.quantity} {item.description}
-        </span>
-        <button onClick={() => onDeleteItem(item.id)}>❌</button>
-      </li>
-    );
-  }
-
-  return (
-    <div className="list">
-      <ul>
-        {items.map((item) => (
-          <Item
-            item={item}
-            key={item.id}
-            onDeleteItem={onDeleteItem}
-            onTooglePacked={onTooglePacked}
-          />
-        ))}
-      </ul>
-    </div>
-  );
-}
-
-function Stats({ items }) {
-  const numItems = items.length;
-  const numPackedItems = items.filter((item) => item.packed).length;
-  const pctPackedItems = Math.round((numPackedItems / numItems) * 100);
-
-  return (
-    <footer className="stats">
-      <em>
-        {pctPackedItems === 100
-          ? "Everything packed, ready go! 🛫"
-          : `🛍️ You have ${numItems} items on your list, and you have already packed ${numPackedItems} (${pctPackedItems} %)`}
-      </em>
-    </footer>
   );
 }
 
