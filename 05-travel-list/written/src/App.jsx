@@ -35,7 +35,7 @@ function App() {
         onDeleteItem={handleDeleteItem}
         onTooglePacked={handleTogglePacked}
       />
-      <Stats />
+      <Stats items={items} />
     </div>
   );
 }
@@ -54,7 +54,7 @@ function Form({ onAddItems }) {
     if (!description) return;
 
     const newItem = { description, quantity, pakced: false, id: Date.now() };
-    console.log(newItem);
+    // console.log(newItem);
 
     onAddItems(newItem);
 
@@ -119,10 +119,18 @@ function PackingList({ items, onDeleteItem, onTooglePacked }) {
   );
 }
 
-function Stats() {
+function Stats({ items }) {
+  const numItems = items.length;
+  const numPackedItems = items.filter((item) => item.packed).length;
+  const pctPackedItems = Math.round((numPackedItems / numItems) * 100);
+
   return (
     <footer className="stats">
-      <em>🛍️ You have X items on your list, and you have already packed X</em>
+      <em>
+        {pctPackedItems === 100
+          ? "Everything packed, ready go! 🛫"
+          : `🛍️ You have ${numItems} items on your list, and you have already packed ${numPackedItems} (${pctPackedItems} %)`}
+      </em>
     </footer>
   );
 }
