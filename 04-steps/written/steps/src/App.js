@@ -47,14 +47,12 @@ export default function App() {
               bgColor="#7950f2"
               txtColor="#fffff"
               onClick={handlePrevious}
-              btnText="Previous"
-            />
-            <Button
-              bgColor="#7950f2"
-              txtColor="#fffff"
-              onClick={handleNext}
-              btnText="Next"
-            />
+            >
+              <span>👈 Previous</span>
+            </Button>
+            <Button bgColor="#7950f2" txtColor="#fffff" onClick={handleNext}>
+              <span>Next 👉</span>
+            </Button>
           </div>
         </div>
       )}
@@ -62,10 +60,10 @@ export default function App() {
   );
 }
 
-function Button({ txtColor, bgColor, onClick, btnText }) {
+function Button({ txtColor, bgColor, onClick, children }) {
   return (
     <button style={{ backgroundColor: bgColor }} onClick={onClick}>
-      {btnText}
+      {children}
     </button>
   );
 }
