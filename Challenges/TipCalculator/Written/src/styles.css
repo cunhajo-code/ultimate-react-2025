@@ -1,3 +1,81 @@
 body {
   font-family: sans-serif;
 }
+
+.app-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f2f2f2;
+}
+
+.calculator {
+  max-width: 500px;
+  width: 100%;
+}
+
+/* Section styling */
+.section {
+  padding: 0.25rem;
+  margin-bottom: 0.25rem;
+  border-radius: 4px;
+}
+
+.input-section {
+  background-color: #010c47;
+  color: #fdfdfd;
+}
+
+.select-section.odd {
+  background-color: #dacff7;
+  color: #202121;
+}
+
+.select-section.even {
+  background-color: #cbcfccb1;
+  color: #202121;
+}
+
+.output-section {
+  padding: 1.5rem;
+  background-color: #96ea7f;
+  color: #073d01;
+  text-align: center;
+}
+
+.reset-section {
+  text-align: center;
+  background-color: #aeacac;
+}
+
+/* Flex alignment for label/input/select rows */
+.input-row,
+.select-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+input[type="text"],
+select {
+  flex: 1;
+  padding: 0.5rem;
+  text-align: right;
+}
+
+/* Output formatting */
+.output-text {
+  margin: 0;
+}
+
+.num {
+  font-weight: bold;
+  color: #000;
+}
+
+.total {
+  font-weight: 900;
+  font-size: 1.2rem;
+}
